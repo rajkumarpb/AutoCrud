@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: applicationContext-autocrud.xml,v 1.1.1.1 2007/07/12 06:33:09 spal Exp $ -->
+<!-- $Source: /cvsroot-fuse/autocrud/autocrud/target/classes/applicationContext-autocrud.xml,v $ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+  <bean id="propertyPlaceHolderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:autocrud.properties</value>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="${jdbc.driver}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+  
+  <bean id="javaTypeMap" class="net.sf.autocrud.JavaTypeMap">
+    <property name="typesProperties" value="classpath:types.properties"/>
+  </bean>
+  
+  <bean id="databaseMetadata" class="net.sf.autocrud.DatabaseMetadata">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="javaTypeMap" ref="javaTypeMap"/>
+  </bean>
+
+  <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+    <property name="resourceLoaderPath" value="classpath:velocity"/>
+  </bean>
+  
+  <bean id="activeRecordGenerator" class="net.sf.autocrud.ActiveRecordGenerator">
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="dbMetadataDao" ref="databaseMetadata"/>
+    <property name="projectPackage" value="${project.package}"/>
+    <property name="templateName" value="activeRecord.vm"/>
+  </bean>
+  
+  <bean id="activeJspGenerator" class="net.sf.autocrud.ActiveJspGenerator">
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="dbMetadataDao" ref="databaseMetadata"/>
+    <property name="webAppName" value="${webapp.name}"/>
+  </bean>
+  
+  <bean id="indexJspGenerator" class="net.sf.autocrud.IndexJspGenerator">
+    <property name="dbMetadataDao" ref="databaseMetadata"/>
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="webAppName" value="${webapp.name}"/>
+    <property name="templateName" value="indexJsp.vm"/>
+  </bean>
+  
+  <bean id="applicationContextGenerator" class="net.sf.autocrud.ApplicationContextGenerator">
+    <property name="dbMetadataDao" ref="databaseMetadata"/>
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="webAppName" value="${webapp.name}"/>
+    <property name="projectPackage" value="${project.package}"/>
+    <property name="templateName" value="springApplicationContext.vm"/>
+  </bean>
+
+  <bean id="webXmlGenerator" class="net.sf.autocrud.WebXmlGenerator">
+    <property name="dbMetadataDao" ref="databaseMetadata"/>
+    <property name="velocityEngine" ref="velocityEngine"/>
+    <property name="webAppName" value="${webapp.name}"/>
+    <property name="templateName" value="webXml.vm"/>
+  </bean>
+    
+  <bean id="scaffoldGenerator" class="net.sf.autocrud.ScaffoldGenerator">
+    <property name="dbMetadataDao" ref="databaseMetadata"/>
+    <property name="activeRecordGenerator" ref="activeRecordGenerator"/>
+    <property name="activeJspGenerator" ref="activeJspGenerator"/>
+    <property name="indexJspGenerator" ref="indexJspGenerator"/>
+    <property name="applicationContextGenerator" ref="applicationContextGenerator"/>
+    <property name="webXmlGenerator" ref="webXmlGenerator"/>
+  </bean>
+  
+</beans>

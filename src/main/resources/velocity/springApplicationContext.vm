@@ -1,0 +1,87 @@
+## $Id: springApplicationContext.vm,v 1.1.1.1 2007/07/12 06:33:08 spal Exp $
+## $Source: /cvsroot-fuse/autocrud/autocrud/src/main/resources/velocity/springApplicationContext.vm,v $
+## Template for generating the applicationContext file that is referenced
+## from the Spring DispatcherServlet.
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: springApplicationContext.vm,v 1.1.1.1 2007/07/12 06:33:08 spal Exp $ -->
+<!-- $Source: /cvsroot-fuse/autocrud/autocrud/src/main/resources/velocity/springApplicationContext.vm,v $ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+       
+  <!-- reference to app.properties -->
+  <bean id="propertyPlaceHolderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:autocrud.properties</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- database stuff -->
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="${jdbc.driver}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+  
+  <!-- bean definitions -->  
+#foreach ($bean in ${beans})  
+  <bean id="${bean.name}" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <property name="target">
+      <bean class="${packageName}.beans.${bean.uppername}" scope="prototype">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    </property>
+    <property name="transactionManager" ref="transactionManager"/>
+    <property name="proxyTargetClass" value="true"/>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="*">PROPAGATION_REQUIRED,-Exception</prop>
+        <prop key="find*">PROPAGATION_SUPPORTS</prop>
+      </props>
+    </property>
+  </bean>
+  
+#end
+  <!-- controller definitions -->
+#foreach ($bean in ${beans})  
+  <bean id="${bean.name}Controller" class="net.sf.autocrud.ActiveController">
+    <property name="activeRecord" ref="${bean.name}"/>
+    <property name="tableName" value="${bean.tableName}"/>
+    <property name="methodNameResolver">
+      <bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+        <property name="defaultMethodName" value="list"/>
+      </bean>
+    </property>
+  </bean>
+  
+#end
+  <!-- controller mappings -->
+  <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+      <props>
+#foreach ($bean in ${beans})      
+        <prop key="/${bean.tableName}.do">${bean.name}Controller</prop>
+#end
+      </props>
+    </property>
+  </bean>
+
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/" />
+    <property name="suffix" value=".jsp" />
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+  </bean>
+
+</beans>

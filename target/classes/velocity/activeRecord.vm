@@ -1,0 +1,34 @@
+## $Id: activeRecord.vm,v 1.1.1.1 2007/07/12 06:33:09 spal Exp $
+## $Source: /cvsroot-fuse/autocrud/autocrud/target/classes/velocity/activeRecord.vm,v $
+## Template for generating beans for database tables
+package ${packageName};
+
+import net.sf.autocrud.ActiveRecord;
+
+/**
+ * Generated source code.
+ * @author net.sf.autocrud.ActiveRecordGenerator
+ */
+public class ${beanName} extends ActiveRecord {
+
+  public ${beanName}() {
+    super();
+    setFields(new String[] {
+#foreach ($columnDataHolder in ${columnDataHolders})
+      "${columnDataHolder.columnName}",
+#end
+      "id"
+    });
+    setTableName("${tableName}");
+  }
+
+#foreach ($columnDataHolder in ${columnDataHolders})
+  public void set${columnDataHolder.javaName}(${columnDataHolder.javaType} inputValue) {
+    setValue("${columnDataHolder.columnName}", inputValue);
+  }
+  
+  public ${columnDataHolder.javaType} get${columnDataHolder.javaName}() {
+    return (${columnDataHolder.javaType}) getValue("${columnDataHolder.columnName}");
+  }
+#end
+}

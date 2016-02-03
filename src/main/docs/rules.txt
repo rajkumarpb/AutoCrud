@@ -1,0 +1,9 @@
+1) first class entities should be represented as tables as singular, eg project, person
+2) no underscores in table name for first class entities
+3) join tables normalizing n:n relations between two tables into two 1:n relations must contain both table names in its name.
+4) all tables must have an id of the database data type that resolves to a long in java. For mysql its bigint(20). For MySQL, they should be autoincrement and for databases that support sequences, they should be linked to a sequence (not implemented).
+5) foreign key reference cols must be of the form ${entityName}_id.
+
+Notes about autocrud
+1) Allows you to create the data access layer and model beans from the database schema.
+2) Currently database dependent. Works with MySQL and code changes will probably be needed to work with Oracle.

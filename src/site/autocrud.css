@@ -1,0 +1,241 @@
+/*
+ * bartender style sheet
+ * 
+ * Copyright (C) Alessandro Dotti Contra <alessandro@hyboria.org>
+ *
+ * bartender.css,v 1.1 2005/07/05 13:07:08 adotti Exp
+ *
+ * This layout is released under the terms of the Creative Commons
+ * Attribution-NonCommercial-ShareAlike version 2.5
+ *
+ * http://creativecommons.org/licenses/by-nc-sa/2.5/
+ */
+
+/* Body */
+
+body {
+	font-family:		sans-serif;
+
+	background-color:	#333333;
+	color:			#FFFFFF;
+
+	margin:			2% 2%;
+}
+
+img {
+	border:			none;
+}
+
+a {
+	background-color:	#333333;
+	color:			#D2D2D2;
+}
+
+a:hover {
+	background-color:	#333333;
+	color:			#EE7B21;
+
+	text-decoration:	none;
+}
+
+p {
+	margin:			5px 0;
+}
+
+/* Frame */
+
+#frame {
+	padding:		3px;
+}
+
+/* Logo */
+
+#logo {
+	text-align:		center;
+
+	background-color:	#333333;
+	color:			#EE7B21;
+	
+	margin:			20px 0;
+
+	font-weight:		bold;
+	font-size:		1.5em;
+}
+
+/* Toolbar */
+
+#toolbar {
+	vertical-align:		middle;
+	text-align:		center;
+	
+	background-color:	#333333;
+	color:			#333333;
+	
+	font-size:		1.2em;
+}
+
+#toolbar a {
+	text-decoration:	none;
+}
+
+#toolbar a:hover {
+	background-color:	#333333;
+	color:			#FFFFFF;
+}
+
+/* Title */
+
+#title {
+	margin:			5px 0;
+
+	text-align:		center;
+
+	border-top:		solid 1px #EE7B21;
+	border-bottom:		solid 1px #EE7B21;
+}
+
+#title h1 {
+	margin:			10px 0;
+	font-size:		1.3em;
+
+	background-color:	#333333;
+	color:			#FFFFFF;
+}
+
+/* Quick links */
+
+#quicklinks {
+	background-color:	#333333;
+	color:			#EE7B21;
+
+	text-align:		center;
+
+	border-top:		1px solid #EE7B21;
+	border-bottom:		1px solid #EE7B21;
+}
+
+#quicklinks a {
+	background-color:	#333333;
+	color:			#D2D2D2;
+
+	text-decoration:	none;
+}
+
+#quicklinks a:hover {
+	background-color:	#333333;
+	color:			#FFFFFF;
+
+	text-decoration:	none;
+}
+
+/* Sidebar */
+
+#sidebar {
+	float:			right;
+	clear:			right;
+
+	width:			30%;
+
+	text-align:		center;
+}
+
+/* Menu */
+
+.menu {
+	margin:			10px 0 10px 10px;
+	padding:		10px 0 10px 10px;
+
+	text-align:		left;
+}
+
+.menu h4 {
+	text-align:		center;
+	
+	background-color:	#333333;
+	color:			#FFFFFF;
+	
+	font-size:		1em;
+	font-weight:		normal;
+
+	margin:			0;
+	padding-bottom:		3px;
+
+	font-weight:		bold;
+}
+
+.menu ul {
+	list-style:		none;
+	background-color:	#333333;
+	color:			#D2D2D2;
+
+	border-top:		1px solid #EE7B21;
+
+	padding-left:		0;
+}
+
+.menu li {
+	margin:			0;
+
+	border-bottom:		solid 1px #EE7B21;
+
+	padding:		3px 0;
+}
+
+.menu a {
+	color:			#D2D2D2;
+	background-color:	#333333;
+	
+	text-decoration:	none;
+}
+
+.menu a:hover {
+	color:			#FFFFFF;
+	background-color:	#333333;
+	
+	text-decoration:	none;
+}
+
+/* Content */
+
+#content {
+	width:			65%;
+	min-height:		500px;
+	margin-bottom:		10px;
+}
+
+/* Block */
+
+.block h2 {
+	font-size:		1.2em;
+	margin-bottom:		3px;
+
+	color:			#EE7B21;
+	background-color:	#333333;
+}
+
+.block .marker {
+	display:		none;
+}
+
+.block .content {
+	width:			100%;
+
+	margin-bottom:		5px;
+	padding:		5px 0;
+
+	text-align:		justify;
+}
+
+/* Miscellaneous classes */
+
+.quote {
+	text-align:		justify;
+	font-style:		italic;
+}
+
+/* Footer */
+
+#footer {
+	font-size:		.8em;
+	text-align:		center;
+}
